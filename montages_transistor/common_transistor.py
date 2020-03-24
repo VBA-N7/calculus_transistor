@@ -1,6 +1,6 @@
 class CommonTransistor(object):
 	"""docstring for common_transistor"""
-	def __init__(self, rb1=None, rb2=None, rc=None, re=None, rg=None, cg=None, vcc=None, eg=None, beta=None, vbe=None):
+	def __init__(self, rb1=None, rb2=None, rc=None, re=None, rg=None, zl=None, cg=None, vcc=None, eg=None, beta=None, vbe=None):
 		super(CommonTransistor, self).__init__()
 		# Resistance de polarisation
 		self.Rb1 = rb1
@@ -8,6 +8,7 @@ class CommonTransistor(object):
 		self.Rc = rc
 		self.Re = re
 		self.Rg = rg
+		self.Zl = zl
 		# Condensateur de polarisation
 		self.Cg = cg
 		# Parametres des sources
@@ -29,8 +30,8 @@ class CommonTransistor(object):
 		try:
 			self.Rth = R_para(self.Rb1,self.Rb2)
 			self.Vth = (self.Rb2/(self.Rb1+self.Rb2))*self.Vcc
-			print("Valeurs de thevenin :")
-			print("Vth = {}V\nRth = {} Ohms".format(round(self.Vth,2),round(self.Rth,2)))
+			#print("Valeurs de thevenin :")
+			#print("Vth = {}V\nRth = {} Ohms".format(round(self.Vth,2),round(self.Rth,2)))
 		except Exception:
 			print("Missing resistance value or Vcc value")
 		pass
@@ -40,8 +41,8 @@ class CommonTransistor(object):
 			self.calcul_thevenin()
 			self.Icq = (self.Vth - self.Vbe)/((self.Rth / self.Beta)+self.Re)
 			self.Vceq = self.Vcc - (self.Rc + self.Re)*self.Icq
-			print("Parametres de polarisation statique")
-			print("Icq = {:.2e}A\nVceq = {:.2e}V".format(self.Icq,self.Vceq))			
+			#print("Parametres de polarisation statique")
+			#print("Icq = {:.2e}A\nVceq = {:.2e}V".format(self.Icq,self.Vceq))
 		except Exception:
 			print("One or more thevenin value missing")
 		pass
@@ -52,8 +53,8 @@ class CommonTransistor(object):
 			self.gm = (self.Icq*1e3) / self.UT
 			self.rb = self.Beta * (self.UT / self.Icq)
 			self.r0 = self.VA / self.Icq
-			print("Parametres de polarisation dynamique :")
-			print("Gm = {:.2e} mA/V\nrb = {:.2e} Ohms\nr0 = {:.2e} Ohms".format(self.gm,self.rb,self.r0))
+			#print("Parametres de polarisation dynamique :")
+			#print("Gm = {:.2e} mA/V\nrb = {:.2e} Ohms\nr0 = {:.2e} Ohms".format(self.gm,self.rb,self.r0))
 		except Exception:
 			print("One or more static parameters missing")			
 
@@ -64,6 +65,6 @@ def R_para(R1,R2):
 	pass
 
 if __name__ == "__main__":
-	temp = CommonTransistor(Rb1=47e3, Rb2=22e3, Vcc=12, Re=2.2e3, Rc=2.7e3)
+	temp = CommonTransistor(rb1=47e3, rb2=22e3, vcc=12, re=2.2e3, rc=2.7e3, zl=100e3, rg=50)
 	temp.calcul_parametres_dynamiques()
 
