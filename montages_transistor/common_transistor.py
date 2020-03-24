@@ -1,25 +1,25 @@
-class common_transistor(object):
+class CommonTransistor(object):
 	"""docstring for common_transistor"""
-	def __init__(self,Rb1 = None,Rb2 = None,Rc = None,Re = None,Rg = None,Cg = None,Vcc = None,eg = None,Beta = None,Vbe = None):
-		super(common_transistor, self).__init__()
+	def __init__(self, rb1=None, rb2=None, rc=None, re=None, rg=None, cg=None, vcc=None, eg=None, beta=None, vbe=None):
+		super(CommonTransistor, self).__init__()
 		# Resistance de polarisation
-		self.Rb1 = Rb1
-		self.Rb2 = Rb2
-		self.Rc = Rc
-		self.Re = Re
-		self.Rg = Rg
+		self.Rb1 = rb1
+		self.Rb2 = rb2
+		self.Rc = rc
+		self.Re = re
+		self.Rg = rg
 		# Condensateur de polarisation
-		self.Cg = Cg
+		self.Cg = cg
 		# Parametres des sources
-		self.Vcc = Vcc
+		self.Vcc = vcc
 		self.eg = eg
-		# Parametres propre au transistor 
-		if Beta is not None:
-			self.Beta = Beta
+		# Parametres propre au transistor
+		if beta is not None:
+			self.Beta = beta
 		else:
 			self.Beta = 300
-		if Vbe is not None: 
-			self.Vbe = Vbe
+		if vbe is not None:
+			self.Vbe = vbe
 		else:
 			self.Vbe = 0.6
 		self.UT = 26e-3
@@ -60,6 +60,5 @@ class common_transistor(object):
 		pass
 
 if __name__ == "__main__":
-	temp = common_transistor(Rb1 = 47e3,Rb2 = 22e3,Vcc = 12,Re = 2.2e3,Rc = 2.7e3)
+	temp = CommonTransistor(Rb1=47e3, Rb2=22e3, Vcc=12, Re=2.2e3, Rc=2.7e3)
 	temp.calcul_parametres_dynamiques()
-		
