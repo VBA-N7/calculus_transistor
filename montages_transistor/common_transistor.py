@@ -27,7 +27,7 @@ class CommonTransistor(object):
 
 	def calcul_thevenin(self):
 		try:
-			self.Rth = (self.Rb2*self.Rb1)/(self.Rb1+self.Rb2)
+			self.Rth = R_para(self.Rb1,self.Rb2)
 			self.Vth = (self.Rb2/(self.Rb1+self.Rb2))*self.Vcc
 			print("Valeurs de thevenin :")
 			print("Vth = {}V\nRth = {} Ohms".format(round(self.Vth,2),round(self.Rth,2)))
@@ -59,6 +59,11 @@ class CommonTransistor(object):
 
 		pass
 
+def R_para(R1,R2):
+	return (R1*R2)/(R1+R2)
+	pass
+
 if __name__ == "__main__":
 	temp = CommonTransistor(Rb1=47e3, Rb2=22e3, Vcc=12, Re=2.2e3, Rc=2.7e3)
 	temp.calcul_parametres_dynamiques()
+
