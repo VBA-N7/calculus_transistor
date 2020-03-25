@@ -1,46 +1,83 @@
-from .common_transistor import CommonTransistor
+from common_transistor import CommonTransistor
 
 
 class CommonEmitter(CommonTransistor):
     """
     Common Emitter montage
     Class used to calculate:
-        Zin: input impedance
-        Zout: output impedance
-        Av: intrinsic gain
-        Gv: voltage gain
+        ZE: input impedance
+        ZS: output impedance
+        AV: intrinsic gain
+        GV: voltage gain
     """
-    def __init__(self, rb1=None, rb2=None, rc=None, re=None, rg=None, zl=None, cg=None, vcc=None, eg=None, beta=None, vbe=None):
-        super().__init__(rb1, rb2, rc, re, rg, zl, cg, vcc, eg, beta, vbe)
 
-        self.Zin = self.set_zin()
-        self.Zout = self.set_zout()
-        self.Av = self.set_av()
-        self.Gv = self.set_gv()
+    def __init__(self,
+                 Rb1=None,
+                 Rb2=None,
+                 Rc=None,
+                 Re=None,
+                 Rg=None,
+                 ZL=None,
+                 Cg=None,
+                 Vcc=None,
+                 eg=None,
+                 beta=None,
+                 Vbe=None):
+        super().__init__(Rb1,
+                         Rb2,
+                         Rc,
+                         Re,
+                         Rg,
+                         ZL,
+                         Cg,
+                         Vcc,
+                         eg,
+                         beta,
+                         Vbe)
 
-    def set_zin(self):
+    def calcul_ZE(self):
         #  self.calcul_parametress_dynamiques()
-        return 1/((1/self.Rb1) + (1/self.Rb2) + (1/self.rb))
+        self.ZE = 1 / ((1 / self.Rb1) + (1 / self.Rb2) + (1 / self.Rth))
+        print("Impédance entrée EC = {:.2e} Ohms".format(self.ZE))
 
-    def set_zout(self):
+    def calcul_ZS(self):
         #  self.calcul_parametres_dynamiques()
-        return 1/((1/self.r0)+(1/self.Rc))
+        self.ZS = 1 / ((1 / self.r0) + (1 / self.Rc))
+        print("Impédance sortie EC = {:.2e} Ohms".format(self.ZE))
 
-    def set_av(self):
+    def calcul_gain_intrinseque(self):
         #  self.calcul_parametres_dynamiques()
-        return self.gm/((1/self.r0) + (1/self.Rc) + (1/self.Zl))
+        self.AV = self.gm / ((1 / self.r0) + (1 / self.Rc) + (1 / self.ZL))
+        print("Gain intrinseque EC = {}".format(round(self.AV, 2)))
 
-    def set_gv(self):
+    def calcul_gain_composite(self):
         #  self.calcul_parametres_dynamiques()
-        return self.Av*self.Zin/(self.Zin + self.Rg)
+        self.GV = self.AV * self.ZE / (self.ZE + self.Rg)
+        print("Gain composite EC = {}".format(round(self.GV, 2)))
 
-    def test(self):
-        print("Ze: {}".format(self.Zin))
-        print("Zs: {}".format(self.Zout))
-        print("Av: {}".format(self.Av))
-        print("Gv: {}".format(self.Gv))
+    def __str__(self):
+        parent = super().__str__()
+        return "{}\nZE: {}\nZS: {}\nAV: {}\nGV: {}".format(parent,
+                                                           self.ZE,
+                                                           self.ZS,
+                                                           self.AV,
+                                                           self.GV)
 
 
 if __name__ == "__main__":
-    test = CommonEmitter(rb1=47e3, rb2=22e3, vcc=12, re=2.2e3, rc=2.7e3, zl=100e3, rg=50)
-    test.test()
+    test = CommonEmitter(Rb1=47e3,
+                         Rb2=22e3,
+                         Vcc=12,
+                         Re=2.2e3,
+                         Rc=2.7e3,
+                         ZL=100e3,
+                         Rg=50)
+
+    test.calcul_thevenin()
+    test.calcul_polarisation()
+    test.calcul_parametres_dynamiques()
+    test.calcul_ZE()
+    test.calcul_ZS()
+    test.calcul_gain_intrinseque()
+    test.calcul_gain_composite()
+    print(test)
