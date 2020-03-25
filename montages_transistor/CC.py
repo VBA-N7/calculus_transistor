@@ -1,9 +1,9 @@
 from common_transistor import CommonTransistor
 
 
-class CommonEmitter(CommonTransistor):
+class CommonCollector(CommonTransistor):
     """
-    Common Emitter montage
+    Common Collector montage
     Class used to calculate:
         ZE: input impedance
         ZS: output impedance
@@ -36,23 +36,26 @@ class CommonEmitter(CommonTransistor):
                          Vbe)
 
     def calcul_ZE(self):
-        self.ZE = R_para(self.Rth, self.rb)
-        print("Impédance entrée EC = {:.2e} Ohms".format(self.ZE))
+        re = self.rb + (self.beta * R_para(self.Re, self.ZL))
+        self.ZE = R_para(re, self.Rth)
+        print("Impédance entrée CC = {:.2e} Ohms".format(self.ZE))
         pass
 
     def calcul_ZS(self):
-        self.ZS = R_para(self.r0, self.Rc)
-        print("Impédance sortie EC = {:.2e} Ohms".format(self.ZS))
+        tampon = (self.rb + R_para(self.Rg, self.Rth)) / self.beta
+        self.ZS = R_para(self.Re, tampon)
+        print("Impédance sortie CC = {:.2e} Ohms".format(self.ZS))
         pass
 
     def calcul_gain_intrinseque(self):
-        self.AV = self.gm / ((1 / self.r0) + (1 / self.Rc) + (1 / self.ZL))
-        print("Gain intrinseque EC = {}".format(round(self.AV, 2)))
+        self.AV = (self.gm * R_para(self.Re, self.ZL)) / \
+            (1 + (self.gm * R_para(self.Re, self.ZL)))
+        print("Gain intrinseque CC = {}".format(round(self.AV, 2)))
         pass
 
     def calcul_gain_composite(self):
         self.GV = self.AV * self.ZE / (self.ZE + self.Rg)
-        print("Gain composite EC = {}".format(round(self.GV, 2)))
+        print("Gain composite CC = {}".format(round(self.GV, 2)))
         pass
 
     def __str__(self):
@@ -70,16 +73,14 @@ def R_para(R1, R2):
 
 
 if __name__ == "__main__":
-    test = CommonEmitter(Rb1=180e3,
-                         Rb2=15e3,
-                         Vcc=20,
-                         Re=1e3,
-                         Rc=4.7e3,
-                         ZL=4.7e3,
-                         Rg=50,
-                         beta=100,
-                         Vbe = 0.6  )
-
+    test = CommonCollector(Rb1=47e3,
+                           Rb2=47e3,
+                           Re=3.3e3,
+                           Rc=150,
+                           ZL=100e3,
+                           Vcc=12,
+                           beta=100,
+                           Rg=50)
     test.calcul_thevenin()
     test.calcul_polarisation()
     test.calcul_parametres_dynamiques()

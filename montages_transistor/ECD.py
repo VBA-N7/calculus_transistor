@@ -1,9 +1,9 @@
 from common_transistor import CommonTransistor
 
 
-class CommonEmitter(CommonTransistor):
+class CommonEmitterDegenerate(CommonTransistor):
     """
-    Common Emitter montage
+    Common Emitter Degenerate montage
     Class used to calculate:
         ZE: input impedance
         ZS: output impedance
@@ -12,6 +12,7 @@ class CommonEmitter(CommonTransistor):
     """
 
     def __init__(self,
+                 Re0,
                  Rb1=None,
                  Rb2=None,
                  Rc=None,
@@ -34,25 +35,27 @@ class CommonEmitter(CommonTransistor):
                          eg,
                          beta,
                          Vbe)
+        self.Re0 = Re0
 
     def calcul_ZE(self):
-        self.ZE = R_para(self.Rth, self.rb)
-        print("Impédance entrée EC = {:.2e} Ohms".format(self.ZE))
+        self.ZE = R_para(self.Rth, self.rb + self.beta * self.Re0)
+        print("Impédance entrée ECD = {:.2e} Ohms".format(self.ZE))
         pass
 
     def calcul_ZS(self):
-        self.ZS = R_para(self.r0, self.Rc)
-        print("Impédance sortie EC = {:.2e} Ohms".format(self.ZS))
+        self.ZS = self.Rc
+        print("Impédance sortie ECD = {:.2e} Ohms".format(self.ZS))
         pass
 
     def calcul_gain_intrinseque(self):
-        self.AV = self.gm / ((1 / self.r0) + (1 / self.Rc) + (1 / self.ZL))
-        print("Gain intrinseque EC = {}".format(round(self.AV, 2)))
+        self.AV = (-self.gm * R_para(self.Rc, self.ZL)) / \
+            (1 + self.gm * self.Re0)
+        print("Gain intrinseque ECD = {}".format(round(self.AV, 2)))
         pass
 
     def calcul_gain_composite(self):
         self.GV = self.AV * self.ZE / (self.ZE + self.Rg)
-        print("Gain composite EC = {}".format(round(self.GV, 2)))
+        print("Gain composite ECD = {}".format(round(self.GV, 2)))
         pass
 
     def __str__(self):
@@ -70,15 +73,15 @@ def R_para(R1, R2):
 
 
 if __name__ == "__main__":
-    test = CommonEmitter(Rb1=180e3,
-                         Rb2=15e3,
-                         Vcc=20,
-                         Re=1e3,
-                         Rc=4.7e3,
-                         ZL=4.7e3,
-                         Rg=50,
-                         beta=100,
-                         Vbe = 0.6  )
+    test = CommonEmitterDegenerate(Rb1=180e3,
+                                   Rb2=15e3,
+                                   Vcc=20,
+                                   Re=1e3,
+                                   Rc=4.7e3,
+                                   ZL=4.7e3,
+                                   Rg=50,
+                                   beta=100,
+                                   Re0=203)
 
     test.calcul_thevenin()
     test.calcul_polarisation()

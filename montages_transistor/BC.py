@@ -45,7 +45,6 @@ class CommonBase(CommonTransistor):
         pass
 
     def calcul_gain_composite(self):
-        self.calcul_ZE()
         self.GV = (self.ZE * self.AV) / (self.ZE + self.Rg)
         print("Gain composite BC = {}".format(round(self.GV, 2)))
         pass

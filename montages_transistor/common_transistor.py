@@ -69,15 +69,15 @@ class CommonTransistor(object):
         pass
 
     def calcul_parametres_dynamiques(self):
-        self.gm = (self.Icq * 1e3) / self.UT
+        self.gm = self.Icq / self.UT
         self.rb = self.beta * (self.UT / self.Icq)
         self.r0 = self.VA / self.Icq
         print("Parametres de polarisation dynamique :")
-        print("Gm = {:.2e} mA/V\n" +
-              "rb = {:.2e} Ohms\n" +
-              "r0 = {:.2e} Ohms".format(self.gm,
-                                        self.rb,
-                                        self.r0))
+        print(("Gm = {:.2e} mA/V\n" +
+               "rb = {:.2e} Ohms\n" +
+               "r0 = {:.2e} Ohms").format(self.gm * 1e3,
+                                          self.rb,
+                                          self.r0))
         pass
 
     def __str__(self):
