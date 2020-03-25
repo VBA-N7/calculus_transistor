@@ -78,7 +78,7 @@ if __name__ == "__main__":
                          ZL=4.7e3,
                          Rg=50,
                          beta=100,
-                         Vbe = 0.6  )
+                         Vbe=0.6)
 
     test.calcul_thevenin()
     test.calcul_polarisation()
