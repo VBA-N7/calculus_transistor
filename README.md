@@ -2,7 +2,7 @@
 Calculateur de paramètres statiques et dynamiques pour des montages à transistor.
 
 Les montages sont décomposés par bloc. Ils se trouvent dans le dossier ***/montages_transistor.***
-Le *main* est totalement useless pour l'instant. Il accueillera le moteur pour gérer l'interface. 
+L'interface graphique n'est pas opérationnelle : elle se lance mais n'intéragit pas. 
 
 Pour utiliser le programme sur un montage, par exemple CC : 
 - Télécharger le projet
