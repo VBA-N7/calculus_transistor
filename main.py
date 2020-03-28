@@ -3,6 +3,8 @@ import sys
 from PyQt5 import QtWidgets, uic
 from CC_window import CC_window
 from EC_window import EC_window
+from BC_window import BC_window
+from ECD_window import ECD_window
 
 
 class main_window(QtWidgets.QMainWindow):
@@ -31,6 +33,14 @@ class main_window(QtWidgets.QMainWindow):
             pass
         elif index_choix == 1:
             self.window_montage = EC_window()
+            self.window_montage.show()
+            pass
+        elif index_choix == 2:
+            self.window_montage = BC_window()
+            self.window_montage.show()
+            pass
+        elif index_choix == 3:
+            self.window_montage = ECD_window()
             self.window_montage.show()
             pass
         # self.hide()

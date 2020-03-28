@@ -1,8 +1,9 @@
 try:
     from montages_transistor.common_montage.common_transistor \
-    import CommonTransistor
+        import CommonTransistor
 except Exception:
     from common_montage.common_transistor import CommonTransistor
+
 
 class CommonBase(CommonTransistor):
     """

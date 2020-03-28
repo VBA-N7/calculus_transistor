@@ -1,6 +1,6 @@
 try:
     from montages_transistor.common_montage.common_transistor \
-    import CommonTransistor
+        import CommonTransistor
 except Exception:
     from common_montage.common_transistor import CommonTransistor
 
@@ -16,7 +16,7 @@ class CommonEmitterDegenerate(CommonTransistor):
     """
 
     def __init__(self,
-                 Re0,
+                 Re0=None,
                  Rb1=None,
                  Rb2=None,
                  Rc=None,
