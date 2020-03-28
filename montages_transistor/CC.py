@@ -1,4 +1,8 @@
-from common_transistor import CommonTransistor
+try:
+    from montages_transistor.common_montage.common_transistor \
+    import CommonTransistor
+except Exception:
+    from common_montage.common_transistor import CommonTransistor
 
 
 class CommonCollector(CommonTransistor):

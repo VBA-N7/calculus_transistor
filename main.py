@@ -1,6 +1,7 @@
 # File: main.py
 import sys
 from PyQt5 import QtWidgets, uic
+from CC_window import CC_window
 
 
 class main_window(QtWidgets.QMainWindow):
@@ -20,12 +21,14 @@ class main_window(QtWidgets.QMainWindow):
         self.valide_choix.clicked.connect(self.BP_valide_choix_handler)
         self.quitter.clicked.connect(self.BP_quitter_handler)
 
-        self.show()
-
     def BP_valide_choix_handler(self):
         index_choix = self.choix_montage.currentIndex()
-        text_choix = self.choix_montage.currentText()
-        print(text_choix, index_choix)
+
+        if index_choix == 0:
+            self.window_montage = CC_window()
+            self.window_montage.show()
+            self.hide()
+            pass
 
         pass
 
@@ -37,4 +40,5 @@ class main_window(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     temp = main_window()
+    temp.show()
     app.exec_()
