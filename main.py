@@ -2,6 +2,7 @@
 import sys
 from PyQt5 import QtWidgets, uic
 from CC_window import CC_window
+from EC_window import EC_window
 
 
 class main_window(QtWidgets.QMainWindow):
@@ -27,9 +28,12 @@ class main_window(QtWidgets.QMainWindow):
         if index_choix == 0:
             self.window_montage = CC_window()
             self.window_montage.show()
-            self.hide()
             pass
-
+        elif index_choix == 1:
+            self.window_montage = EC_window()
+            self.window_montage.show()
+            pass
+        # self.hide()
         pass
 
     def BP_quitter_handler(self):

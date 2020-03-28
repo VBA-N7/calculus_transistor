@@ -1,15 +1,15 @@
-# File: CC_window.py
+# File: EC_window.py
 import sys
 from PyQt5 import QtWidgets, uic
-from montages_transistor.CC import CommonCollector
+from montages_transistor.EC import CommonEmitter
 
 
-class CC_window(QtWidgets.QMainWindow):
-    """docstring for CC_window"""
+class EC_window(QtWidgets.QMainWindow):
+    """docstring for EC_window"""
 
     def __init__(self):
-        super(CC_window, self).__init__()
-        uic.loadUi('./UI/CC.ui', self)
+        super(EC_window, self).__init__()
+        uic.loadUi('./UI/EC.ui', self)
 
         self.BP_start_calculus = self.findChild(QtWidgets.QPushButton,
                                                 'BP_start_calculus')
@@ -55,62 +55,62 @@ class CC_window(QtWidgets.QMainWindow):
         self.spin_beta_V = self.findChild(QtWidgets.QDoubleSpinBox, 'beta_V')
 
     def start_calculus(self):
-        self.CC = CommonCollector()
+        self.EC = CommonEmitter()
         self.get_parameters()
-        self.CC.calcul_thevenin()
-        self.CC.calcul_polarisation()
-        self.CC.calcul_parametres_dynamiques()
-        self.CC.calcul_ZE()
-        self.CC.calcul_ZS()
-        self.CC.calcul_gain_intrinseque()
-        self.CC.calcul_gain_composite()
+        self.EC.calcul_thevenin()
+        self.EC.calcul_polarisation()
+        self.EC.calcul_parametres_dynamiques()
+        self.EC.calcul_ZE()
+        self.EC.calcul_ZS()
+        self.EC.calcul_gain_intrinseque()
+        self.EC.calcul_gain_composite()
         self.display_results()
         pass
 
     def get_parameters(self):
-        self.CC.eg = self.spin_eg_V.value() * \
+        self.EC.eg = self.spin_eg_V.value() * \
             self.index_to_exponant_volt(self.combo_eg_E)
-        self.CC.Vcc = self.spin_Vcc_V.value() * \
+        self.EC.Vcc = self.spin_Vcc_V.value() * \
             self.index_to_exponant_volt(self.combo_Vcc_E)
 
-        self.CC.Rg = self.spin_Rg_V.value() * \
+        self.EC.Rg = self.spin_Rg_V.value() * \
             self.index_to_exponant_ohm(self.combo_Rg_E)
-        self.CC.Rb1 = self.spin_Rb1_V.value() * \
+        self.EC.Rb1 = self.spin_Rb1_V.value() * \
             self.index_to_exponant_ohm(self.combo_Rb1_E)
-        self.CC.Rb2 = self.spin_Rb2_V.value() * \
+        self.EC.Rb2 = self.spin_Rb2_V.value() * \
             self.index_to_exponant_ohm(self.combo_Rb2_E)
-        self.CC.Rc = self.spin_Rc_V.value() * \
+        self.EC.Rc = self.spin_Rc_V.value() * \
             self.index_to_exponant_ohm(self.combo_Rc_E)
-        self.CC.Re = self.spin_Re_V.value() * \
+        self.EC.Re = self.spin_Re_V.value() * \
             self.index_to_exponant_ohm(self.combo_Re_E)
-        self.CC.ZL = self.spin_ZL_V.value() * \
+        self.EC.ZL = self.spin_ZL_V.value() * \
             self.index_to_exponant_ohm(self.combo_ZL_E)
-        self.CC.beta = self.spin_beta_V.value()
+        self.EC.beta = self.spin_beta_V.value()
 
-        print(self.CC.eg)
-        print(self.CC.Vcc)
-        print(self.CC.Rg)
-        print(self.CC.Rb1)
-        print(self.CC.Rb2)
-        print(self.CC.Rc)
-        print(self.CC.Re)
-        print(self.CC.ZL)
-        print(self.CC.beta)
+        print(self.EC.eg)
+        print(self.EC.Vcc)
+        print(self.EC.Rg)
+        print(self.EC.Rb1)
+        print(self.EC.Rb2)
+        print(self.EC.Rc)
+        print(self.EC.Re)
+        print(self.EC.ZL)
+        print(self.EC.beta)
         pass
 
     def display_results(self):
-        self.L_vth.setText("{}".format(round(self.CC.Vth, 1)))
-        self.L_rth.setText("{:.2e}".format(self.CC.Rth, 1))
-        self.L_icq.setText("{:.2e}".format(self.CC.Icq))
-        self.L_vceq.setText("{:.2e}".format(self.CC.Vceq))
+        self.L_vth.setText("{}".format(round(self.EC.Vth, 2)))
+        self.L_rth.setText("{:.2e}".format(self.EC.Rth, 1))
+        self.L_icq.setText("{:.2e}".format(self.EC.Icq))
+        self.L_vceq.setText("{:.2e}".format(self.EC.Vceq))
 
-        self.L_gm.setText("{:.2e}".format(self.CC.gm))
-        self.L_rb.setText("{:.2e}".format(self.CC.rb))
-        self.L_r0.setText("{:.2e}".format(self.CC.r0))
-        self.L_ze.setText("{:.2e}".format(self.CC.ZE))
-        self.L_zs.setText("{:.2e}".format(self.CC.ZS))
-        self.L_av.setText("{}".format(round(self.CC.AV, 2)))
-        self.L_gv.setText("{}".format(round(self.CC.GV, 2)))
+        self.L_gm.setText("{:.2e}".format(self.EC.gm))
+        self.L_rb.setText("{:.2e}".format(self.EC.rb))
+        self.L_r0.setText("{:.2e}".format(self.EC.r0))
+        self.L_ze.setText("{:.2e}".format(self.EC.ZE))
+        self.L_zs.setText("{:.2e}".format(self.EC.ZS))
+        self.L_av.setText("{}".format(round(self.EC.AV, 2)))
+        self.L_gv.setText("{}".format(round(self.EC.GV, 2)))
         pass
 
     def index_to_exponant_volt(self, combo_box):
@@ -128,6 +128,6 @@ class CC_window(QtWidgets.QMainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    temp = CC_window()
+    temp = EC_window()
     temp.show()
     app.exec_()
