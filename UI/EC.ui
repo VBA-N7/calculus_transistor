@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>985</width>
+    <width>991</width>
     <height>615</height>
    </rect>
   </property>
@@ -1512,6 +1512,42 @@
      <string>V</string>
     </property>
    </widget>
+   <widget class="QWidget" name="DDC_container" native="true">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>330</y>
+      <width>361</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>361</width>
+      <height>251</height>
+     </size>
+    </property>
+    <layout class="QVBoxLayout" name="DDC_layout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMinimumSize</enum>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+    </layout>
+   </widget>
    <zorder>label</zorder>
    <zorder>Rb1_V</zorder>
    <zorder>Rb1_E</zorder>
@@ -1580,13 +1616,14 @@
    <zorder>label_35</zorder>
    <zorder>label_36</zorder>
    <zorder>label_37</zorder>
+   <zorder>DDC_container</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>985</width>
+     <width>991</width>
      <height>21</height>
     </rect>
    </property>

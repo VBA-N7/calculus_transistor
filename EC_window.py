@@ -3,6 +3,9 @@ import sys
 from PyQt5 import QtWidgets, uic
 from montages_transistor.EC import CommonEmitter
 
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+
 
 class EC_window(QtWidgets.QMainWindow):
     """docstring for EC_window"""
@@ -54,6 +57,11 @@ class EC_window(QtWidgets.QMainWindow):
 
         self.spin_beta_V = self.findChild(QtWidgets.QDoubleSpinBox, 'beta_V')
 
+        self.DDC_layout = self.findChild(QtWidgets.QLayout, 'DDC_layout')
+        self.DDC_plot = Figure()
+        self.DDC_canvas = FigureCanvas(self.DDC_plot)
+        self.DDC_layout.addWidget(self.DDC_canvas)
+
     def start_calculus(self):
         self.EC = CommonEmitter()
         self.get_parameters()
@@ -65,6 +73,7 @@ class EC_window(QtWidgets.QMainWindow):
         self.EC.calcul_gain_intrinseque()
         self.EC.calcul_gain_composite()
         self.display_results()
+        self.display_DDC()
         pass
 
     def get_parameters(self):
@@ -124,6 +133,15 @@ class EC_window(QtWidgets.QMainWindow):
         n = (-6 + (combo_box.currentIndex() * 3))
         return pow(10, n)
         pass
+
+    def display_DDC(self):
+        ax = self.DDC_plot.add_subplot(111)
+        ax.clear()
+        ax.plot(self.EC.calcul_DDCS()[0], self.EC.calcul_DDCS()[1], '*-')
+        ax.grid()
+        ax.set_xlabel("Vce (V)")
+        ax.set_ylabel("Ic (A)")
+        self.DDC_canvas.draw()
 
 
 if __name__ == "__main__":
