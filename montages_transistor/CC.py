@@ -70,6 +70,31 @@ class CommonCollector(CommonTransistor):
                                                            self.AV,
                                                            self.GV)
 
+    def calcul_DDCD(self):
+        Q = (self.Vceq, self.Icq)
+        coeff_dir = (- 1) / R_para(self.Re, self.ZL)
+        A = (0, coeff_dir * (- Q[0]) + Q[1])
+        B = (Q[0] - (Q[1] / coeff_dir), 0)
+        return [[A[0], self.Vceq, B[0]], [A[1], self.Icq, B[1]]]
+        pass
+
+    def calcul_dynamic_limits(self):
+        xDistance_Q_to_origin = self.Vceq
+        xDistance_Q_to_DDCD = self.calcul_DDCD()[0][2] - self.Vceq
+        xDistance_Q_to_DDCS = self.Vcc - self.Vceq
+        tab = [xDistance_Q_to_origin, xDistance_Q_to_DDCD, xDistance_Q_to_DDCS]
+        xmin = self.Vceq - min(tab)
+        xmax = self.Vceq + min(tab)
+
+        yDistance_Q_to_origin = self.Icq
+        yDistance_Q_to_DDCD = self.calcul_DDCD()[1][2] - self.Icq
+        yDistance_Q_to_DDCS = self.calcul_DDCS()[1][0] - self.Icq
+        tab = [yDistance_Q_to_origin, yDistance_Q_to_DDCD, yDistance_Q_to_DDCS]
+        ymin = self.Icq - min(tab)
+        ymax = self.Icq + min(tab)
+
+        return xmin, xmax, ymin, ymax
+
 
 def R_para(R1, R2):
     return (R1 * R2) / (R1 + R2)
@@ -92,4 +117,5 @@ if __name__ == "__main__":
     test.calcul_ZS()
     test.calcul_gain_intrinseque()
     test.calcul_gain_composite()
+    test.calcul_DDCD()
     print(test)
