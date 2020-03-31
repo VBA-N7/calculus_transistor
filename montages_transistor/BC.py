@@ -77,7 +77,7 @@ class CommonBase(CommonTransistor):
         xmax = self.Vceq + min(tab)
 
         yDistance_Q_to_origin = self.Icq
-        yDistance_Q_to_DDCD = self.calcul_DDCD()[1][2] - self.Icq
+        yDistance_Q_to_DDCD = self.calcul_DDCD()[1][0] - self.Icq
         yDistance_Q_to_DDCS = self.calcul_DDCS()[1][0] - self.Icq
         tab = [yDistance_Q_to_origin, yDistance_Q_to_DDCD, yDistance_Q_to_DDCS]
         ymin = self.Icq - min(tab)
