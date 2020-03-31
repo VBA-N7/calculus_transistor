@@ -116,5 +116,4 @@ if __name__ == "__main__":
     test.calcul_ZS()
     test.calcul_gain_intrinseque()
     test.calcul_gain_composite()
-    test.calcul_DDCD()
     print(test)

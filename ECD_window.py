@@ -143,11 +143,23 @@ class ECD_window(QtWidgets.QMainWindow):
         plt.plot(self.ECD.calcul_DDCD()[0], self.ECD.calcul_DDCD()[1], "r-x")
         plt.xlabel('Vce (V)')
         plt.ylabel('Ic (A)')
-        plt.title('Droite de charge statique & dynamique')
+        plt.title('Droite de charge')
+        plt.legend(["Statique", "Dynamique"])
         plt.grid()
         plt.ticklabel_format(style='sci', axis='y', scilimits=(0, 0))
         plt.annotate(s="Point de polarisation",
-                     xy=(self.ECD.Vceq, self.ECD.Icq))
+                     xy=(self.ECD.Vceq,
+                         self.ECD.Icq))
+        plt.annotate(s="Icmax: {:.2e}".format(self.ECD.calcul_DDCS()[1][0]),
+                     xy=(self.ECD.calcul_DDCS()[0][0],
+                         self.ECD.calcul_DDCS()[1][0]))
+        plt.annotate(s="icmax: {:.2e}".format(self.ECD.calcul_DDCD()[1][0]),
+                     xy=(self.ECD.calcul_DDCD()[0][0],
+                         self.ECD.calcul_DDCD()[1][0]))
+        plt.annotate(s="vcemax: {}".format(round(self.ECD.calcul_DDCD()[0][2],
+                                                 2)),
+                     xy=(self.ECD.calcul_DDCD()[0][2],
+                         self.ECD.calcul_DDCD()[1][2]))
 
         xmin, xmax, ymin, ymax = self.ECD.calcul_dynamic_limits()
         plt.axvspan(xmin,
@@ -166,6 +178,23 @@ class ECD_window(QtWidgets.QMainWindow):
                     facecolor='g')
         plt.axhline(ymin, linestyle="dotted", color='g')
         plt.axhline(ymax, linestyle="dotted", color='g')
+
+        plt.annotate("",
+                     xy=(xmin, ymin),
+                     xytext=(xmin, ymax),
+                     arrowprops=dict(arrowstyle="<->"))
+        plt.annotate("Δic",
+                     xy=(0, 0),
+                     xytext=(xmin, self.ECD.Icq))
+
+        plt.annotate("",
+                     xy=(xmin, ymin),
+                     xytext=(xmax, ymin),
+                     arrowprops=dict(arrowstyle="<->"))
+        plt.annotate("Δvce",
+                     xy=(0, 0),
+                     xytext=(self.ECD.Vceq,
+                             ymin))
         plt.show()
         pass
 
