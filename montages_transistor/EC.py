@@ -50,7 +50,7 @@ class CommonEmitter(CommonTransistor):
         pass
 
     def calcul_gain_intrinseque(self):
-        self.AV = self.gm / ((1 / self.r0) + (1 / self.Rc) + (1 / self.ZL))
+        self.AV = - self.gm / ((1 / self.r0) + (1 / self.Rc) + (1 / self.ZL))
         print("Gain intrinseque EC = {}".format(round(self.AV, 2)))
         pass
 

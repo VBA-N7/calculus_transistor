@@ -44,7 +44,7 @@ class CommonBase(CommonTransistor):
         pass
 
     def calcul_gain_intrinseque(self):
-        self.AV = self.gm * R_para(self.Rc, self.ZL)
+        self.AV = self.gm / ((1 / self.r0) + (1 / self.Rc) + (1 / self.ZL))
         print("Gain intrinseque BC = {}".format(round(self.AV, 2)))
         pass
 
@@ -59,6 +59,31 @@ class CommonBase(CommonTransistor):
                                                                self.ZE,
                                                                self.AV,
                                                                self.GV)
+
+    def calcul_DDCD(self):
+        Q = (self.Vceq, self.Icq)
+        coeff_dir = (- 1) / (R_para(R_para(self.r0, self.ZL), self.Rc))
+        A = (0, coeff_dir * (- Q[0]) + Q[1])
+        B = (Q[0] - (Q[1] / coeff_dir), 0)
+        return [[A[0], self.Vceq, B[0]], [A[1], self.Icq, B[1]]]
+        pass
+
+    def calcul_dynamic_limits(self):
+        xDistance_Q_to_origin = self.Vceq
+        xDistance_Q_to_DDCD = self.calcul_DDCD()[0][2] - self.Vceq
+        xDistance_Q_to_DDCS = self.Vcc - self.Vceq
+        tab = [xDistance_Q_to_origin, xDistance_Q_to_DDCD, xDistance_Q_to_DDCS]
+        xmin = self.Vceq - min(tab)
+        xmax = self.Vceq + min(tab)
+
+        yDistance_Q_to_origin = self.Icq
+        yDistance_Q_to_DDCD = self.calcul_DDCD()[1][2] - self.Icq
+        yDistance_Q_to_DDCS = self.calcul_DDCS()[1][0] - self.Icq
+        tab = [yDistance_Q_to_origin, yDistance_Q_to_DDCD, yDistance_Q_to_DDCS]
+        ymin = self.Icq - min(tab)
+        ymax = self.Icq + min(tab)
+
+        return xmin, xmax, ymin, ymax
 
 
 def R_para(R1, R2):
@@ -80,4 +105,5 @@ if __name__ == "__main__":
     temp.calcul_ZE()
     temp.calcul_gain_intrinseque()
     temp.calcul_gain_composite()
+    temp.calcul_DDCD()
     print(temp)

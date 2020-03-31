@@ -853,22 +853,6 @@
      <string>Paramètres modèle dynamique :</string>
     </property>
    </widget>
-   <widget class="Line" name="line_2">
-    <property name="geometry">
-     <rect>
-      <x>683</x>
-      <y>280</y>
-      <width>351</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="lineWidth">
-     <number>2</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_16">
     <property name="geometry">
      <rect>
@@ -1243,27 +1227,6 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_27">
-    <property name="geometry">
-     <rect>
-      <x>683</x>
-      <y>300</y>
-      <width>251</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Arial</family>
-      <pointsize>11</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Schéma équivalent petits signaux :</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="BP_start_calculus">
     <property name="geometry">
      <rect>
@@ -1512,6 +1475,22 @@
      <string>V</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="BP_DDC">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>290</y>
+      <width>281</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Droite de charge</string>
+    </property>
+   </widget>
    <zorder>label</zorder>
    <zorder>Rb1_V</zorder>
    <zorder>Rb1_E</zorder>
@@ -1544,7 +1523,6 @@
    <zorder>label_13</zorder>
    <zorder>label_14</zorder>
    <zorder>label_15</zorder>
-   <zorder>line_2</zorder>
    <zorder>label_16</zorder>
    <zorder>label_17</zorder>
    <zorder>label_18</zorder>
@@ -1567,7 +1545,6 @@
    <zorder>label_25</zorder>
    <zorder>label_26</zorder>
    <zorder>L_gv</zorder>
-   <zorder>label_27</zorder>
    <zorder>BP_start_calculus</zorder>
    <zorder>label_28</zorder>
    <zorder>beta_V</zorder>
@@ -1580,6 +1557,7 @@
    <zorder>label_35</zorder>
    <zorder>label_36</zorder>
    <zorder>label_37</zorder>
+   <zorder>BP_DDC</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

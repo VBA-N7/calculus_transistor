@@ -2,6 +2,7 @@
 import sys
 from PyQt5 import QtWidgets, uic
 from montages_transistor.BC import CommonBase
+import matplotlib.pyplot as plt
 
 
 class BC_window(QtWidgets.QMainWindow):
@@ -14,6 +15,9 @@ class BC_window(QtWidgets.QMainWindow):
         self.BP_start_calculus = self.findChild(QtWidgets.QPushButton,
                                                 'BP_start_calculus')
         self.BP_start_calculus.clicked.connect(self.start_calculus)
+
+        self.BP_DDC = self.findChild(QtWidgets.QPushButton, 'BP_DDC')
+        self.BP_DDC.clicked.connect(self.display_DDC)
 
         self.L_vth = self.findChild(QtWidgets.QLineEdit, 'L_vth')
         self.L_rth = self.findChild(QtWidgets.QLineEdit, 'L_rth')
@@ -65,6 +69,7 @@ class BC_window(QtWidgets.QMainWindow):
         self.BC.calcul_gain_intrinseque()
         self.BC.calcul_gain_composite()
         self.display_results()
+        self.BP_DDC.setEnabled(True)
         pass
 
     def get_parameters(self):
@@ -123,6 +128,39 @@ class BC_window(QtWidgets.QMainWindow):
     def index_to_exponant_ohm(self, combo_box):
         n = (-6 + (combo_box.currentIndex() * 3))
         return pow(10, n)
+        pass
+
+    def display_DDC(self):
+        plt.close('all')
+        plt.figure(1)
+        plt.plot(self.BC.calcul_DDCS()[0], self.BC.calcul_DDCS()[1], "g-o")
+        plt.plot(self.BC.calcul_DDCD()[0], self.BC.calcul_DDCD()[1], "r-x")
+        plt.xlabel('Vce (V)')
+        plt.ylabel('Ic (A)')
+        plt.title('Droite de charge statique & dynamique')
+        plt.grid()
+        plt.ticklabel_format(style='sci', axis='y', scilimits=(0, 0))
+        plt.annotate(s="Point de polarisation",
+                     xy=(self.BC.Vceq, self.BC.Icq))
+
+        xmin, xmax, ymin, ymax = self.BC.calcul_dynamic_limits()
+        plt.axvspan(xmin,
+                    xmax,
+                    ymin=0,
+                    ymax=1,
+                    alpha=0.2)
+        plt.axvline(xmin, linestyle="dotted")
+        plt.axvline(xmax, linestyle="dotted")
+
+        plt.axhspan(ymin,
+                    ymax,
+                    xmin=0,
+                    xmax=1,
+                    alpha=0.2,
+                    facecolor='g')
+        plt.axhline(ymin, linestyle="dotted", color='g')
+        plt.axhline(ymax, linestyle="dotted", color='g')
+        plt.show()
         pass
 
 

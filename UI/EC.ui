@@ -1488,7 +1488,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Droite de charge statique</string>
+     <string>Droite de charge</string>
     </property>
    </widget>
    <zorder>label</zorder>
