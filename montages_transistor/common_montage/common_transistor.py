@@ -63,7 +63,7 @@ class CommonTransistor(object):
 
     def calcul_polarisation(self):
         self.Icq = (self.Vth - self.Vbe) / ((self.Rth / self.beta) + self.Re)
-        self.Vceq = self.Vcc - (self.Rc + self.Re) * self.Icq
+        self.Vceq = self.Vcc - ((self.Rc + self.Re) * self.Icq)
         print("Parametres de polarisation statique")
         print("Icq = {:.2e}A\nVceq = {:.2e}V".format(self.Icq, self.Vceq))
         pass
@@ -79,6 +79,11 @@ class CommonTransistor(object):
                                           self.rb,
                                           self.r0))
         pass
+
+    def calcul_DDCS(self):
+        Ic_max = self.Vcc / (self.Rc + self.Re)
+        tab = [[0, self.Vceq, self.Vcc], [Ic_max, self.Icq, 0]]
+        return tab
 
     def __str__(self):
         return ("Rb1 = {}\n" +
