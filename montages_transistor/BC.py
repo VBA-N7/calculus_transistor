@@ -105,5 +105,6 @@ if __name__ == "__main__":
     temp.calcul_ZE()
     temp.calcul_gain_intrinseque()
     temp.calcul_gain_composite()
-    temp.calcul_DDCD()
+    print(temp.calcul_DDCD())
+    print(temp.calcul_dynamic_limits())
     print(temp)
